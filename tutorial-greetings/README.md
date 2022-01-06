@@ -1,6 +1,6 @@
 # tutorial-greetings
 
-Learning stuff from https://go.dev/doc/tutorial/create-module.
+This learning section is based on https://go.dev/doc/tutorial/create-module.
 
 ## Requirements
 
