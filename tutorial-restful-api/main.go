@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -26,6 +25,7 @@ func main() {
 	// These endpoints aren't in the tutorial, but
 	// let's create it nonetheless.
 	router.PUT("/characters/:id", updateCharacter)
+	router.DELETE("/characters/:id", deleteCharacter)
 
 	router.Run("localhost:8080")
 }
@@ -72,11 +72,19 @@ func updateCharacter(c *gin.Context) {
 	c.ShouldBindJSON(&body)
 	id := c.Param("id")
 
-	for _, char := range characters {
+	for idx, char := range characters {
 		if char.ID == id {
-			fmt.Println(body)
+			// Unsure if there's a good way to do it,
+			// but I just simply changed the array directly.
+			// After that, I manually updated the `ID`.
+			// This is so that, in case the JSON body contains
+			// invalid `id`, then the valid id will still be used.
+			// It's overengineering, I agree, for this case...
+			characters[idx] = body
+			// Ensure that ID isn't replaced.
+			characters[idx].ID = id
 
-			c.IndentedJSON(http.StatusOK, char)
+			c.IndentedJSON(http.StatusOK, characters[idx])
 			return
 		}
 	}
@@ -84,6 +92,22 @@ func updateCharacter(c *gin.Context) {
 	c.IndentedJSON(http.StatusNotFound, gin.H{"message": "Character not found"})
 }
 
-func helperUpdateCharacter(char Character) {
+func deleteCharacter(c *gin.Context) {
+	id := c.Param("id")
+	var characterIdx int = -1
 
+	for idx, char := range characters {
+		if char.ID == id {
+			characterIdx = idx
+			break
+		}
+	}
+
+	if characterIdx == -1 {
+		c.IndentedJSON(http.StatusNotFound, gin.H{"message": "Character not found"})
+		return
+	}
+
+	characters = append(characters[:characterIdx], characters[characterIdx+1:]...)
+	c.IndentedJSON(http.StatusOK, gin.H{})
 }

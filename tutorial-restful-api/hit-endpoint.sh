@@ -31,4 +31,8 @@ case $action in
       --request "PUT" \
       --data '{"id": "4c0ba5d1-8139-4506-9334-08a8c3314c0d", "name": "Haydes", "role": "Emet-Selch", "level": 99},'
     ;;
+  "delete")
+    curl http://localhost:8080/characters/$uuid \
+      --request "DELETE"
+    ;;
 esac
