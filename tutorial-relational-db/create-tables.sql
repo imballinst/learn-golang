@@ -1,9 +1,9 @@
 DROP TABLE IF EXISTS characters;
 CREATE TABLE characters (
-  id         INT AUTO_INCREMENT NOT NULL,
-  name      VARCHAR(128) NOT NULL,
-  role     VARCHAR(255) NOT NULL,
-  level      INT NOT NULL,
+  id         	INT AUTO_INCREMENT NOT NULL,
+  name      	VARCHAR(128) NOT NULL,
+  role     		VARCHAR(255) NOT NULL,
+  level      	INT NOT NULL,
   PRIMARY KEY (`id`)
 );
 
@@ -17,3 +17,16 @@ VALUES
 	("Y'shtola", 'Scion', 80),
 	('Urianger', 'Scion', 80),
 	('Lyse', 'Ala Mhigan Resistance', 70);
+
+DROP TABLE IF EXISTS accounts;
+CREATE TABLE accounts (
+  id         						INT AUTO_INCREMENT NOT NULL,
+  name      						VARCHAR(128) NOT NULL,
+  characters_remaining  INT NOT NULL,
+  PRIMARY KEY (`id`)
+);
+
+INSERT INTO accounts
+  (name, characters_remaining)
+VALUES
+	('admin', 1);
